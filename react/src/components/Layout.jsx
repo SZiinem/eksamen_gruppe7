@@ -1,6 +1,10 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom'; 
+// Link - en forbedret versjon av a href for å tilrettelegge for client side navigasjon
+// Outlet - rendrer matchende child route fra en parent route, eller ingenting hvis ingen child route matcher
 import Search from './Search';
+// importerer jsx-komponent Search
 import './Layout.css';
+// importerer css til Layout.jsx
 
 const Layout = ({ loggedInUser }) => {
   return (
@@ -10,6 +14,7 @@ const Layout = ({ loggedInUser }) => {
         <Search />
         <p>
           Welcome,{' '}
+          {/* {' '} lager et mellomrom etter Welcome */}
           {loggedInUser
             ? <Link to={`/borrower/${loggedInUser._id}`}>{loggedInUser.name}</Link>
             : 'No user loaded'}
