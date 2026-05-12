@@ -26,6 +26,7 @@ const Layout = ({ loggedInUser }) => {
       </nav>
       <main>
         <Outlet />
+        {/*placeholder som skal byttes med hvilken route man er på*/}
       </main>
       <footer className="layout-footer">
         <p><Link to="/privacy">Privacy</Link></p>
