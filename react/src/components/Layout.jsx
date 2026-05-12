@@ -18,6 +18,8 @@ const Layout = ({ loggedInUser }) => {
           {loggedInUser
             ? <Link to={`/borrower/${loggedInUser._id}`}>{loggedInUser.name}</Link>
             : 'No user loaded'}
+            {/* fetchUser (i App.jsx) henter data fra database som lagres i loggedInUser - prop */}
+            {/* basert på loggedInUser._id så skriver den ut loggedInUser.name som visning i JSX */}
         </p>
       </header>
       <nav className="layout-nav">
@@ -31,9 +33,11 @@ const Layout = ({ loggedInUser }) => {
       </nav>
       <main>
         <Outlet />
+        {/* Outlet rendrer alle barne-elementer (alt innenfor Route Layout i App.jsx) */}
       </main>
       <footer className="layout-footer">
         <p><Link to="/privacy">Privacy</Link></p>
+        {/* Siden eksisterer ikke. Viser show404.jsx */}
       </footer>
     </div>
   );

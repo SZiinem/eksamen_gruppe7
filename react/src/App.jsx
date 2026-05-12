@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import client from '../helpers/sanityClient'
+// Importerer en ferdig konfigurert Sanity-klient fra sanityClient.js
 import Frontpage from './components/Frontpage'
 import Books from './components/Books'
 import Book from './components/Book'
@@ -55,7 +56,9 @@ function App() {
 
   return (
     <Routes>
+      {/* Routes er en regel som bestemmer hva som skal vises basert på URL i nettleser */}
       <Route path="/" element={<Layout loggedInUser={loggedInUser} />}>
+      {/* Alle route innenfor path="/" er barne-element av Layout.jsx */}
         <Route index element={<Frontpage />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:id" element={<Book />} />
@@ -65,6 +68,7 @@ function App() {
         <Route path="borrower/:id" element={<BorrowerProfile />} />
         <Route path="search" element={<SearchResults />} />
         <Route path="*" element={<Show404 />} />
+        {/* "*" Viser show404.jsx på all URL som ikke finnes */}
       </Route>
     </Routes>
   )
