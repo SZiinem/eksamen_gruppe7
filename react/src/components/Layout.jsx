@@ -4,6 +4,7 @@ import './Layout.css';
 
 const Layout = ({ loggedInUser }) => {
   return (
+    //fjern denne div-en v
     <div>
       <header className="layout-header">
         <h1>Library system</h1>

@@ -4,9 +4,9 @@ import client from '../../helpers/sanityClient';
 
 const BorrowerProfile = () => {
   const { id } = useParams();
-  const [borrower, setBorrower] = useState(null);
+  const [borrower, setBorrower] = useState(null); //ingen verdi er hentet enda
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //hent data med engang
 
   useEffect(() => {
     const fetchBorrower = async () => {
@@ -27,6 +27,7 @@ const BorrowerProfile = () => {
     };
     fetchBorrower();
   }, [id]);
+  //dersom id-en endres hentes ny data automatisk
 
   if (loading) return <div>Loading borrower profile...</div>;
   if (!borrower) return <div>Borrower not found.</div>;

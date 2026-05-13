@@ -30,6 +30,7 @@ export default function Frontpage() {
   
   return (
     <div>
+      {/*fjern denne div'en*/}
       <h1>Welcome to the Library System</h1>
       <p>Explore our collection of books and manage your library experience.</p>
 
@@ -41,6 +42,7 @@ export default function Frontpage() {
           <p>Error loading summary: {error}</p>
         ) : (
           <div>
+            {/*fjern denne div'en, erstatt med article*/}
             <p>Active orders: {activeOrders}</p>
             <p>Books currently borrowed: {booksBorrowed}</p>
           </div>

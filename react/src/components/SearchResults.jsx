@@ -11,15 +11,21 @@ const SearchResults = () => {
   useEffect(() => {
     if (!q) {
       setResults([]);
+      //hvis q ikke finnes, tømmer vi setResults
       return;
     }
+
     const fetchResults = async () => {
+      //async henter data fra sanity
       setLoading(true);
       const query = `*[_type == "book" && (
         title match $term || author->name match $term
       )]{
         _id, title, "author": author->name, publishedYear
       } | order(title asc)`;
+       //author->name : fordi author i book refererer til dokumentet author og vi henter name derifra
+       //første del av groq-spørringen er et filter, den sorterer
+       //andre del av groq-spørringen henter ut de feltene vi faktisk trenger
       const data = await client.fetch(query, { term: `*${q}*` });
       setResults(data);
       setLoading(false);
