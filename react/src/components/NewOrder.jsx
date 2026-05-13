@@ -67,7 +67,8 @@ const NewOrder = () => {
   };
 
   return (
-    <div>
+    // <div>
+    <>
       <h1>New order</h1>
       <form onSubmit={handleSubmit}>
         <p>
@@ -116,7 +117,8 @@ const NewOrder = () => {
           </button>
         </p>
       </form>
-    </div>
+      </>
+    // </div>
   );
 };
 

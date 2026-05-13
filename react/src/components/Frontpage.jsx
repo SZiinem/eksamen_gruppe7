@@ -37,8 +37,9 @@ export default function Frontpage() {
   // , 0) forteller at reduce skal starte tellingen på 0
 
   return (
-    // <div> Fjernet div
+    // <div> Fjernet div. Erstattet med tom fragment
     <>
+    {/* tom fragment for å fortelle react at "her kommer innhold" */}
       <h1>Welcome to the Library System</h1>
       <p>Explore our collection of books and manage your library experience.</p>
 

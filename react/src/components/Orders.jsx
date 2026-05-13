@@ -32,7 +32,8 @@ const Orders = ({ loggedInUser }) => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    // <div>
+    <>
       <h1>Orders</h1>
       <p><Link className="button" to="/orders/new">+ New order</Link></p>
       <ul>
@@ -51,7 +52,8 @@ const Orders = ({ loggedInUser }) => {
           );
         })}
       </ul>
-    </div>
+      </>
+    // </div>
   );
 };
 

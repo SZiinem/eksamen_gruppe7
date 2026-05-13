@@ -48,7 +48,8 @@ const Books = () => {
     : books;
 
   return (
-    <div>
+    // <div>
+    <>
       <h1>Books</h1>
 
       <nav className="book-filters">
@@ -86,16 +87,17 @@ const Books = () => {
             ) : (
               <span style={{ color: 'green', marginLeft: '0.5rem' }}>✅ Available</span>
             )}
-            <div>
+            {/* <div> */}
               by {book.author} ({book.publishedYear}) - ISBN: {book.isbn}
               {book.genres?.length > 0 && (
                 <span> — {book.genres.map(g => g.title).join(', ')}</span>
               )}
-            </div>
+            {/* </div> */}
           </li>
         ))}
       </ul>
-    </div>
+      </>
+    // </div>
   );
 };
 

@@ -33,7 +33,8 @@ const Order = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    // <div>
+    <>
       <h2 className="text-sm">Order #{order._id}</h2>
       <p>
         <strong>Borrower:</strong> {order.borrower?.name || 'Unknown'}
@@ -52,7 +53,8 @@ const Order = () => {
         ))}
       </ul>
       <Link to="/orders">Back to orders</Link>
-    </div>
+    </>
+      // </div>
   );
 };
 

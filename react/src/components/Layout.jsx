@@ -8,7 +8,8 @@ import './Layout.css';
 
 const Layout = ({ loggedInUser }) => {
   return (
-    <div> {/* Fjern unødvendig div (havner innenfor div id=root), ha tomme <> </> for å markere innhold */}
+    // <div>  Fjern unødvendig div (havner innenfor div id=root), erstattet med fragments for å markere innhold
+    <>
       <header className="layout-header">
         <h1>Library system</h1>
         <Search />
@@ -39,7 +40,8 @@ const Layout = ({ loggedInUser }) => {
         <p><Link to="/privacy">Privacy</Link></p>
         {/* Siden eksisterer ikke. Viser show404.jsx */}
       </footer>
-    </div>
+      </>
+    // </div>
   );
 };
 

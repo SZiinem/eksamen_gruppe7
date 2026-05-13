@@ -33,7 +33,8 @@ const Book = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    // <div>
+    <>
       <h1>{book.title}</h1>
       <img
         src={book.coverUrl || `https://placehold.co/240x360?text=${encodeURIComponent(book.title)}`}
@@ -50,7 +51,8 @@ const Book = () => {
         <strong>ISBN:</strong> {book.isbn || 'N/A'}
       </p>
       <Link to="/books">Back to book list</Link>
-    </div>
+      </>
+    // </div>
   );
 };
 

@@ -45,7 +45,8 @@ const SearchResults = () => {
 
 
   return (
-    <div> {/* div burde byttes ut med section eller article */}
+    // <div> Fjernet div. Erstattet med tomme fragments
+    <>
       <h1>Search results for "{q}"</h1>
       {loading ? (
         <p>Searching...</p>
@@ -62,7 +63,8 @@ const SearchResults = () => {
           ))}
         </ul>
       )}
-    </div>
+      </>
+    // </div>
   );
 };
 
