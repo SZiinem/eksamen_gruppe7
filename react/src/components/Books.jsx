@@ -103,25 +103,37 @@ const Books = () => {
 
       <ul>
         {filteredBooks.map((book) => (
+          // lager én <li> per bok
           <li key={book._id}>
             <img
               src={book.coverUrl || `https://placehold.co/40x60?text=${encodeURIComponent(book.title)}`}
               alt={`Cover of ${book.title}`}
               style={{ width: 40, height: 60, objectFit: 'cover', verticalAlign: 'middle', marginRight: 8 }}
+              // viser coverbilde. Inline CSS ikke optimalt
             />
             <Link to={`/books/${book._id}`}>
+            {/* viser detaljer om boka */}
               <strong>{book.title}</strong>
+              {/* strong er strengt tatt inline css. Burde være i eget ark */}
             </Link>{' '}
             {book.borrowed ? (
+              // viser at om bok er lånt er den rød
               <span style={{ color: 'red', marginLeft: '0.5rem' }}>📕 Borrowed</span>
+              // inline CSS. Burde legges i eget ark
             ) : (
+              // hvis ikke lånt er den grønn
               <span style={{ color: 'green', marginLeft: '0.5rem' }}>✅ Available</span>
+              // inline CSS. Burde legges i eget ark
             )}
-            {/* <div> */}
+
+            {/* <div> fjernet div, erstattet med <p>-tag */}
+            <p>
               by {book.author} ({book.publishedYear}) - ISBN: {book.isbn}
               {book.genres?.length > 0 && (
                 <span> — {book.genres.map(g => g.title).join(', ')}</span>
+                // genereres som egne <li> i <ul>. Er meningsfull container? 
               )}
+            </p>
             {/* </div> */}
           </li>
         ))}
