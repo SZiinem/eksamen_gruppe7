@@ -60,15 +60,19 @@ const Book = () => {
         src={book.coverUrl || `https://placehold.co/240x360?text=${encodeURIComponent(book.title)}`}
         alt={`Cover of ${book.title}`}
         style={{ maxWidth: 240 }}
+        // inline CSS? Burde vært i eget ark?
       />
       <p>
         <strong>Author:</strong> {book.author?.name || 'Unknown'}
+        {/* inline CSS? Burde vært i eget ark? */}
       </p>
       <p>
         <strong>Published Year:</strong> {book.publishedYear || 'N/A'}
+        {/* inline CSS? Burde vært i eget ark? */}
       </p>
       <p>
         <strong>ISBN:</strong> {book.isbn || 'N/A'}
+        {/* inline CSS? Burde vært i eget ark? */}
       </p>
       <Link to="/books">Back to book list</Link>
       </>

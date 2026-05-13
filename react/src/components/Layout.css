@@ -55,6 +55,14 @@ main {
     cursor: pointer;
     border-radius: 4px;
 
+    font-weight: normal;
+    /* lagt til som ersatning for inline css i books.jsx */
+
+    &.active{
+      font-weight: bold;
+    /* lagt til som ersatning for inline css i books.jsx */
+    }
+
     &:hover {
       background-color: #d5dce9;
       border: 1px solid #0a2a5e

@@ -81,8 +81,9 @@ const Books = () => {
         <button
           onClick={() => setSelectedGenre(null)}
           // setter selectedGenre til null - ingen sjanger valgt = vis alle
-          style={{ fontWeight: selectedGenre === null ? 'bold' : 'normal' }}
-          // inline CSS er ikke optimalt. Burde flyttes til eget style sheet
+          // style={{ fontWeight: selectedGenre === null ? 'bold' : 'normal' }}
+          className={selectedGenre === null ? 'active' : ''} // endret til
+          // fjernet inline css, lagt til egen i Layout.css
         >
           All
         </button>
@@ -93,8 +94,9 @@ const Books = () => {
             // kobler på en unik nøkkel for react
             onClick={() => setSelectedGenre(genre._id)}
             // klikk på knappen setter selectedGenre til sjangerens id
-            style={{ fontWeight: selectedGenre === genre._id ? 'bold' : 'normal' }}
-            // inline CSS er ikke optimalt. Burde flyttes til eget style sheet
+            // style={{ fontWeight: selectedGenre === genre._id ? 'bold' : 'normal' }}
+            className={selectedGenre === genre._id ? 'active' : ''} // endret til
+            // fjernet inline css, lagt til egen i Layout.css
           >
             {genre.title}
           </button>
