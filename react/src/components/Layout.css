@@ -69,3 +69,26 @@ main {
     }
   }
 }
+
+/* Erstatter inline css i Books.jsx */
+.book-info {
+  img{
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+}
+
+/* Erstatter inline css i Books.jsx */
+.borrowed {
+  color: red;
+  margin-left: 0.5rem;
+}
+
+/* Erstatter inline css i Books.jsx */
+.available{
+  color: green;
+  margin-left: 0.5rem;
+}

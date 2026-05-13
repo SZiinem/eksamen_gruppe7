@@ -106,26 +106,28 @@ const Books = () => {
       <ul>
         {filteredBooks.map((book) => (
           // lager én <li> per bok
-          <li key={book._id}>
+          <li key={book._id} className='book-info'> 
+          {/* lagt til className og ekstern css i Layout.css */}
             <img
               src={book.coverUrl || `https://placehold.co/40x60?text=${encodeURIComponent(book.title)}`}
               alt={`Cover of ${book.title}`}
-              style={{ width: 40, height: 60, objectFit: 'cover', verticalAlign: 'middle', marginRight: 8 }}
-              // viser coverbilde. Inline CSS ikke optimalt
+              // style={{ width: 40, height: 60, objectFit: 'cover', verticalAlign: 'middle', marginRight: 8 }}
             />
             <Link to={`/books/${book._id}`}>
             {/* viser detaljer om boka */}
               <strong>{book.title}</strong>
-              {/* strong er strengt tatt inline css. Burde være i eget ark */}
+              {/* strong er semantisk html som understreker viktig innhold for skjermlesere og søkemotorer */}
             </Link>{' '}
             {book.borrowed ? (
               // viser at om bok er lånt er den rød
-              <span style={{ color: 'red', marginLeft: '0.5rem' }}>📕 Borrowed</span>
-              // inline CSS. Burde legges i eget ark
+              <span className='borrowed'>📕 Borrowed</span>
+              // <span style={{ color: 'red', marginLeft: '0.5rem' }}>📕 Borrowed</span>
+              // lagt css i eget ark, layout.css
             ) : (
               // hvis ikke lånt er den grønn
-              <span style={{ color: 'green', marginLeft: '0.5rem' }}>✅ Available</span>
-              // inline CSS. Burde legges i eget ark
+              <span className='available'>✅ Available</span>
+              // <span style={{ color: 'green', marginLeft: '0.5rem' }}>✅ Available</span>
+              // lagt css i eget ark, layout.css
             )}
 
             {/* <div> fjernet div, erstattet med <p>-tag */}
