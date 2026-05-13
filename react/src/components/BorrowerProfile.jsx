@@ -56,6 +56,7 @@ const BorrowerProfile = () => {
   // for hver order hentes order.books (eller [] hvis den ikke finnes)
   // flatMap slår sammen alle listene til ett flatt array. allBooks inneholder alle books fra alle orders i én array
   const uniqueBooks = Array.from(
+    //uniqueBooks er et array som viser hver unike bok bare én gang
     new Map(allBooks.map(book => [book._id, book])).values()
   );
   // allBooks.map(book => [book._id, book]) lager en liste med (nøkkel-id) par: [_id, book]
@@ -76,20 +77,29 @@ const BorrowerProfile = () => {
       ) : (
         <ul>
           {orders.map(order => (
+              // går gjennom alle ordre og lager ett <li> per ordre
             <li key={order._id}>
+              {/* gir hvert listeelement en unik id til react */}
               <Link to={`/orders/${order._id}`}>
+              {/* lager lenke til detaljsiden for den ordren */}
                 Order on {new Date(order.orderDate).toLocaleDateString()}
+                {/* toLocaleDateString() viser datoen i lesbart lokalt format - avgjøres av nettleser og lokale innstillinger */}
               </Link>
               {' — '}{order.books?.length ?? 0} book{order.books?.length === 1 ? '' : 's'}
+              {/* order.books?.length ?? 0 viser hvor mange bøker ordren har (0 hvis books er undefined) */}
+              {/* book{... ? '' : 's'} legger til s på slutten hvis det er flere enn én bok (book / books) */}
             </li>
           ))}
         </ul>
       )}
 
       <h2>Books borrowed ({uniqueBooks.length})</h2>
+      {/* finner unike bøker - teller antall */}
       {uniqueBooks.length === 0 ? (
+        // hvis null:
         <p>No books borrowed yet.</p>
       ) : (
+        // hvis det eksisterer bøker i uniqueBooks
         <ul>
           {uniqueBooks.map(book => (
             <li key={book._id}>
