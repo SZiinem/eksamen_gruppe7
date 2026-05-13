@@ -37,7 +37,8 @@ export default function Frontpage() {
   // , 0) forteller at reduce skal starte tellingen på 0
 
   return (
-    <div>
+    // <div> Fjernet div
+    <>
       <h1>Welcome to the Library System</h1>
       <p>Explore our collection of books and manage your library experience.</p>
 
@@ -48,12 +49,15 @@ export default function Frontpage() {
         ) : error ? (
           <p>Error loading summary: {error}</p>
         ) : (
-          <div>
+          // <div> Fjernet div - erstattet med article
+          <article>
             <p>Active orders: {activeOrders}</p>
             <p>Books currently borrowed: {booksBorrowed}</p>
-          </div>
+          </article>
+          // </div> Fjernet div - erstattet med article
         )}
       </section>
-    </div>
+      </>
+    // </div> Fjernet div
   );
 }

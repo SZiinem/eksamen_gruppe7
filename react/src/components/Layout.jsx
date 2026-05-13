@@ -8,7 +8,7 @@ import './Layout.css';
 
 const Layout = ({ loggedInUser }) => {
   return (
-    <div>
+    <div> {/* Fjern unødvendig div (havner innenfor div id=root), ha tomme <> </> for å markere innhold */}
       <header className="layout-header">
         <h1>Library system</h1>
         <Search />
