@@ -7,3 +7,6 @@ export default function Show404() {
         </>
     )
 }
+
+
+// Endret forbokstav på fila show404.jsx til stor - Show404.jsx

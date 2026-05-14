@@ -13,7 +13,7 @@ import Book from './components/Book'
 import Orders from './components/Orders'
 import Order from './components/Order'
 import Layout from './components/Layout'
-import Show404 from './components/show404'
+import Show404 from './components/Show404'
 import BorrowerProfile from './components/BorrowerProfile'
 import NewOrder from './components/NewOrder'
 import SearchResults from './components/SearchResults'
@@ -69,7 +69,7 @@ function App() {
         <Route path="borrower/:id" element={<BorrowerProfile />} />
         <Route path="search" element={<SearchResults />} />
         <Route path="*" element={<Show404 />} />
-        {/* "*" Viser show404.jsx på all URL som ikke finnes */}
+        {/* "*" Viser Show404.jsx på all URL som ikke finnes */}
       </Route>
     </Routes>
   )
