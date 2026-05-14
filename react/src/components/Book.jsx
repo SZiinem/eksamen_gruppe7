@@ -21,7 +21,7 @@ const Book = () => {
           // if (!result) betyr: «Hvis result er null, undefined eller en annen “falsy” verdi»
           throw new Error('Book not found');
           // Lager et nytt error‑objekt med meldingen "Book not found" og kaster det
-          // når vi «kaster» en feil inne i en try‑blokk, hopper koden rett til catch‑delen under
+          // når vi «kaster» (genererer) en feil inne i en try‑blokk, hopper koden rett til catch‑delen under
           // Alt etter throw inni try vil ikke kjøre. Poenget: Hvis ingen bok ble funnet - ikke kalle setBook, men behandle det som en feil.
         }
 

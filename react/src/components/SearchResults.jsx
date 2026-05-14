@@ -9,7 +9,7 @@ const SearchResults = () => {
   // ([]) sier at state starter med en tom array
   const [loading, setLoading] = useState(false);
   // (false) gjør at loading ikke starter med en gang koden kjøres, men skal kjøres og vises i tiden fra man trykker søk og til resultatet vises på siden
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // EKSTRA
 
   useEffect(() => {
     if (!q) {
