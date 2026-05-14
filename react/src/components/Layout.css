@@ -98,3 +98,14 @@ main {
   margin-left: 0.5rem;
   color: green;
 }
+
+/* Erstatter inline CSS i NewOrder.jsx */
+.checkbox-neworder{
+  list-style: none;
+  padding: 0;
+}
+
+/* Erstatter inline CSS i NewOrder.jsx */
+.error-neworder{
+  color: red;
+}

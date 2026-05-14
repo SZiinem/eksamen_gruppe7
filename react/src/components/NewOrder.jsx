@@ -66,6 +66,7 @@ const NewOrder = () => {
     // disabler submit-knapp imens vi venter - forhindre at samme ordre blir registrert flere ganger
     try {
       const newOrder = await client.create({
+      // dette er IKKE en fetch. Dette er "skjema" som sendes til Sanity som JS-kode
         _type: 'order',
       // dokument-type i sanity
         borrower: { _type: 'reference', _ref: borrowerId },
@@ -79,7 +80,7 @@ const NewOrder = () => {
       // lager en unik nøkkel (som Sanity krever i arrays)
         })),
         orderDate: new Date().toISOString()
-      // dato opprettet som: 2025-01-14T10:30:00.000Z
+      // dato opprettet i format som sanity forstår som: 2025-01-14T10:30:00.000Z
       });
       navigate(`/orders/${newOrder._id}`);
       // alt gikk bra - går til den nye ordre-siden
@@ -90,7 +91,7 @@ const NewOrder = () => {
       // skru av submitting så bruker kan sende skjema igjen
     }
   };
-  // ikke nødvendig med catch eller finally - hvis alt går bra navigeres det bort fra siden, hvis ikke kan skjema sendes på nytt
+  // ikke nødvendig med finally - hvis alt går bra navigeres det bort fra siden, hvis ikke kan skjema sendes på nytt setSubmitting(true)
 
   return (
     // <div>
@@ -100,34 +101,51 @@ const NewOrder = () => {
         <p>
           <label>
             Borrower:{' '}
+            {/* Tvinger et mellomrom */}
             <select
               value={borrowerId}
+              // react kontrollerer hvilken borrower-id som er valgt
               onChange={(e) => setBorrowerId(e.target.value)}
+              // oppdaterer state (setBorrowerId) når bruker velger borrower-id (e.target.value)
               disabled={submitting}
+              // ikke mulig å endre verdier imens skjema sendes inn
             >
               <option value="">— choose borrower —</option>
+              {/* vises som standard når ingen borrower er valgt */}
               {borrowers.map(b => (
                 <option key={b._id} value={b._id}>{b.name}</option>
+                // key={b._id} unik nøkkel som react trenger for listeelement
+                // value={b._id} det som lagres i state
+                // {b.name} mellom fragments viser borrower-navnet
               ))}
             </select>
           </label>
         </p>
 
         <fieldset disabled={submitting}>
+          {/* deaktiverer alle elementer imens skjema sendes */}
           <legend>Books</legend>
+          {/* Overskrift som vises på fieldset */}
           {books.length === 0 ? (
             <p>Loading books…</p>
+            // vises imens bøker hentes fra database
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+            // <ul style={{ listStyle: 'none', padding: 0 }}> fjernet inline CSS. Lagt til i Layout.css
+            <ul className='checkbox-neworder'>
               {books.map(book => (
+                // pakker ut alle bøker i array
                 <li key={book._id}>
+                  {/* lister alle bøker som egne listepunkter, med checkbox */}
                   <label>
                     <input
                       type="checkbox"
                       checked={selectedBookIds.includes(book._id)}
+                      // viser om bok eksisterer i liste eller ikke
                       onChange={() => toggleBook(book._id)}
+                      // hvis ja - nei, hvis nei - ja. 
                     />
                     {' '}{book.title}{book.author && ` — ${book.author}`}
+                    {/* viser mellomrom, boktittel, sjekker om forfatternavn finnes - `${viser forfatternavn hvis det finnes}` */}
                   </label>
                 </li>
               ))}
@@ -135,13 +153,14 @@ const NewOrder = () => {
           )}
         </fieldset>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {/* {error && <p style={{ color: 'red' }}>{error}</p>} Fjernet inline CSS. Lagt til i Layout.css */}
+        {error && <p className='error-neworder'></p>}
 
-        <p>
+        {/* <p> fjernet unødvendig p-tag rundt button */}
           <button type="submit" disabled={submitting}>
             {submitting ? 'Creating…' : 'Create order'}
           </button>
-        </p>
+        {/* </p> */}
       </form>
       </>
     // </div>
