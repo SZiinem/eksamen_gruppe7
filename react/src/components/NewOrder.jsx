@@ -47,8 +47,9 @@ const NewOrder = () => {
       return;
     }
 
-    setSubmitting(true);
+    setSubmitting(true); //låser skjemaet mens sanity jobber slik at brukeren ikke kan klikke på create order mens sanity jobber
     try {
+      //her bruker vi client.create fordi vi henter ikke data men lager ny data og sender til sanity, da bruker vi ikke ternary operators
       const newOrder = await client.create({
         _type: 'order',
         borrower: { _type: 'reference', _ref: borrowerId },
