@@ -45,17 +45,20 @@ const Orders = ({ loggedInUser }) => {
     // <div> erstattet div med tomme fragments
     <>
       <h1>Orders</h1>
-      <p><Link className="button" to="/orders/new">+ New order</Link></p>
+      {/* <p><Link className="button" to="/orders/new">+ New order</Link></p> fjernet unødvendig p-tag fra lenke-knapp*/}
+      <Link className="button" to="/orders/new">+ New order</Link>
       <ul>
         {orders.map((order) => {
           const isYours = loggedInUser && order.borrowerId === loggedInUser._id;
           return (
             <li key={order._id}>
               <Link to={`/orders/${order._id}`}>
-                <strong>Order #{order._id}</strong><br /> {/* br-tag fjernes ! */}
+                {/* <strong>Order #{order._id}</strong><br /> fjernet br-tag, erstattet med p-tag*/} 
+                <p><strong>Order #{order._id}</strong></p>
               </Link>
               {order.borrower?.name || 'Unknown borrower'}
-              {isYours && <span style={{ marginLeft: '0.5rem', color: 'green' }}>(yours)</span>}
+              {/* {isYours && <span className='yours' style={{ marginLeft: '0.5rem', color: 'green' }}>(yours)</span>} Fjernet inline CSS */}
+              {isYours && <span className='yours'>(yours)</span>}
               {' — '}
               {order.books?.length ?? 0} book{order.books?.length === 1 ? '' : 's'}
             </li>

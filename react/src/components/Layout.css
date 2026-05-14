@@ -92,3 +92,9 @@ main {
   color: green;
   margin-left: 0.5rem;
 }
+
+/* Erstatter inline CSS i Orders.jsx */
+.yours {
+  margin-left: 0.5rem;
+  color: green;
+}
