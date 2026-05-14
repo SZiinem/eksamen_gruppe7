@@ -9,7 +9,7 @@ import './Layout.css';
 const Layout = ({ loggedInUser }) => {
   // loggedInUser som prop, hentet inn fra App.jsx. App eier state
   return (
-    // <div>  Fjern unødvendig div (havner innenfor div id=root), erstattet med fragments for å markere innhold
+    // <div> Fjernet unødvendig div (havner innenfor div id=root), erstattet med fragments for å markere innhold
     <>
       <header className="layout-header">
         <h1>Library system</h1>

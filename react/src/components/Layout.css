@@ -109,3 +109,9 @@ main {
 .error-neworder{
   color: red;
 }
+
+/* Erstatter inline CSS i show404.jsx */
+.show-error-image{
+  max-width: 100%;
+  margin: 20px 0;
+}
