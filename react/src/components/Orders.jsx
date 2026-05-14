@@ -3,20 +3,26 @@ import { Link } from 'react-router-dom';
 import client from '../../helpers/sanityClient';
 
 const Orders = ({ loggedInUser }) => {
+  // Orders med parameter loggedInUser fra App.jsx, prop (data) som sendes fra ett komponent inn til et annet komponent
+  // forteller hvem som er logget inn, og hvilke ordre som skal vises. 
+  // App eier state
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!loggedInUser) return; // lagt til ekstra kjøres ikke hvis bruker ikke er lastet inn enda
     const fetchOrders = async () => {
       try {
-        const query = `*[_type == "order"]{
+        // const query = `*[_type == "order"]{ gammel groq-spørring
+        const query = `*[_type == "order" && borrower._ref == $userId]{
           _id,
           "borrowerId": borrower._ref,
           borrower->{name},
           books
         }`;
-        const result = await client.fetch(query);
+        // const result = await client.fetch(query); gammel kode
+        const result = await client.fetch(query, {userId: loggedInUser._id});
         setOrders(result);
       } catch (err) {
         setError(err.message);
@@ -26,13 +32,17 @@ const Orders = ({ loggedInUser }) => {
     };
 
     fetchOrders();
-  }, []);
+  }, [loggedInUser]);
+  // lagt til ekstra : avhengighetsarray
 
-  if (loading) return <div>Loading orders...</div>;
-  if (error) return <div>Error: {error}</div>;
+  // if (loading) return <div>Loading orders...</div>; erstattet div med p-tag
+  if (loading) return <p>Loading orders...</p>;
+
+  // if (error) return <div>Error: {error}</div>; erstattet div med p-tag
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    // <div>
+    // <div> erstattet div med tomme fragments
     <>
       <h1>Orders</h1>
       <p><Link className="button" to="/orders/new">+ New order</Link></p>
@@ -42,7 +52,7 @@ const Orders = ({ loggedInUser }) => {
           return (
             <li key={order._id}>
               <Link to={`/orders/${order._id}`}>
-                <strong>Order #{order._id}</strong><br />
+                <strong>Order #{order._id}</strong><br /> {/* br-tag fjernes ! */}
               </Link>
               {order.borrower?.name || 'Unknown borrower'}
               {isYours && <span style={{ marginLeft: '0.5rem', color: 'green' }}>(yours)</span>}
@@ -52,6 +62,7 @@ const Orders = ({ loggedInUser }) => {
           );
         })}
       </ul>
+
       </>
     // </div>
   );

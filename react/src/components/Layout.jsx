@@ -7,6 +7,7 @@ import './Layout.css';
 // importerer css til Layout.jsx
 
 const Layout = ({ loggedInUser }) => {
+  // loggedInUser som prop, hentet inn fra App.jsx. App eier state
   return (
     // <div>  Fjern unødvendig div (havner innenfor div id=root), erstattet med fragments for å markere innhold
     <>

@@ -33,6 +33,7 @@ function App() {
       try {
         // try er sikkerhetsmekanisme - prøver å kjøre kode
         const query = `*[_type == "borrower"][0]{ _id, name, email }`
+                          // Kan bytte index for å bytte bruker. Skal vi lage en bedre løsning?
         // Groq-spørring
         // *[_type == "borrower"] - finner alle dokumenter av typen "borrower"
         // [0] - tar bare det første treffet
