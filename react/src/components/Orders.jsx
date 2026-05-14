@@ -58,7 +58,7 @@ const Orders = ({ loggedInUser }) => {
               </Link>
               {order.borrower?.name || 'Unknown borrower'}
               {/* {isYours && <span className='yours' style={{ marginLeft: '0.5rem', color: 'green' }}>(yours)</span>} Fjernet inline CSS */}
-              {isYours && <span className='yours'>(yours)</span>}
+              {isYours && <span className='yours'>(yours)</span>} 
               {' — '}
               {order.books?.length ?? 0} book{order.books?.length === 1 ? '' : 's'}
             </li>
