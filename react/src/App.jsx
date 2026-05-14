@@ -58,7 +58,8 @@ function App() {
   return (
     <Routes>
       {/* Routes er en regel som bestemmer hva som skal vises basert på URL i nettleser */}
-      <Route path="/" element={<Layout loggedInUser={loggedInUser} />}>
+      <Route path="/" element={<Layout loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />}>
+      {/* LEGGER TIL setLoggedInUser SOM PROPP  ^ */}
       {/* Alle route innenfor path="/" er barne-element av Layout.jsx */}
         <Route index element={<Frontpage />} />
         <Route path="books" element={<Books />} />
