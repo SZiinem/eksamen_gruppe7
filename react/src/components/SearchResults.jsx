@@ -40,18 +40,17 @@ const SearchResults = () => {
       setResults(data);
     } catch (err) { // EKSTRA 
       setError(err.message); // EKSTRA
+      console.error("search error", err) //EKSTRA
       setResults([]) // EKSTRA 
+      // søkeresultat oppdateres og lagres i state
     } finally { // EKSTRA 
       setLoading(false)
-    }
-      setResults([]);
-      // søkeresultat oppdateres og lagres i state
-      setLoading(false);
       // loading "slått av" etter data er hentet
+    }
     };
     fetchResults();
   }, [q]);
-  // q som avhengighet / dependency 
+  // q som avhengighetsarray / dependency 
 
 
   return (
@@ -61,7 +60,8 @@ const SearchResults = () => {
       {loading ? (
         <p>Searching...</p>
       ) : error ? (
-  <p>Something went wrong: {error}</p>
+        <p>Something went wrong: {error}</p>
+        // EKSTRA 
       ) : results.length === 0 ? (
         <p>No books found.</p>
       ) : (
