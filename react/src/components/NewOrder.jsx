@@ -14,6 +14,7 @@ const NewOrder = ({ loggedInUser }) => {
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  //const [borrowerId, setBorrowerId] = useState('');
   //SLETTET BORROWERID STATEN
 
   useEffect(() => {

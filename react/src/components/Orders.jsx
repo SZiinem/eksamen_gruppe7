@@ -51,7 +51,7 @@ const Orders = ({ loggedInUser }) => {
         {orders.map((order) => {
           const isYours = loggedInUser && order.borrowerId === loggedInUser._id;
           return (
-            <li key={order._id}>
+            <li className='order-list' key={order._id}>
               <Link to={`/orders/${order._id}`}>
                 {/* <strong>Order #{order._id}</strong><br /> fjernet br-tag, erstattet med p-tag*/} 
                 <p><strong>Order #{order._id}</strong></p>

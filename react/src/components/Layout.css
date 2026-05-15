@@ -115,3 +115,9 @@ main {
   max-width: 100%;
   margin: 20px 0;
 }
+
+/* Ekstra på ordre-id Ordre.jsx */
+.order-list{
+  margin-top: 0.8rem;
+  width: fit-content;
+}

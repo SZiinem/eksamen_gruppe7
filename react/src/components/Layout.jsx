@@ -13,7 +13,8 @@ const Layout = ({ loggedInUser, setLoggedInUser }) => {
   //SENDER 'setLoggedInUser' SOM PROPP, FORDI DEN KOMMER FRA ET ANNET KOMPONENT
 
   const [borrowers, setBorrowers] = useState([]);
-  const [borrowerId, setBorrowerId] = useState('');
+  // const [borrowerId, setBorrowerId] = useState('');
+  // KOMMENTERT UT. BRUKES IKKE LENGRE
   const [error, setError] = useState(null);
   //EKSTRA
 
@@ -33,6 +34,10 @@ const Layout = ({ loggedInUser, setLoggedInUser }) => {
     fetchData();
   }, [setLoggedInUser]);
   // setLoggedInUser som prop, FOR Å HENTE AKTUELL BRUKER
+
+  console.log(error)
+  // for å bruke error (så den ikke viser defined but not used)
+
   return (
     // <div> Fjernet unødvendig div (havner innenfor div id=root), erstattet med fragments for å markere innhold
     <>
@@ -64,7 +69,7 @@ const Layout = ({ loggedInUser, setLoggedInUser }) => {
                 // value={b._id} det som lagres i state
                 // {b.name} mellom fragments viser borrower-navnet
               ))}
-            </select>
+        </select>
       </header>
       <nav className="layout-nav">
         <Link to="/">Home</Link>
