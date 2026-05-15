@@ -55,9 +55,69 @@ main {
     cursor: pointer;
     border-radius: 4px;
 
+    font-weight: normal;
+    /* lagt til som ersatning for inline css i books.jsx */
+
+    &.active{
+      font-weight: bold;
+    /* lagt til som ersatning for inline css i books.jsx */
+    }
+
     &:hover {
       background-color: #d5dce9;
       border: 1px solid #0a2a5e
     }
   }
+}
+
+/* Erstatter inline css i Books.jsx */
+.book-info {
+  img{
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+}
+
+/* Erstatter inline css i Books.jsx */
+.borrowed {
+  color: red;
+  margin-left: 0.5rem;
+}
+
+/* Erstatter inline css i Books.jsx */
+.available{
+  color: green;
+  margin-left: 0.5rem;
+}
+
+/* Erstatter inline CSS i Orders.jsx */
+.yours {
+  margin-left: 0.5rem;
+  color: green;
+}
+
+/* Erstatter inline CSS i NewOrder.jsx */
+.checkbox-neworder{
+  list-style: none;
+  padding: 0;
+}
+
+/* Erstatter inline CSS i NewOrder.jsx */
+.error-neworder{
+  color: red;
+}
+
+/* Erstatter inline CSS i show404.jsx */
+.show-error-image{
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+/* Ekstra på ordre-id Ordre.jsx */
+.order-list{
+  margin-top: 0.8rem;
+  width: fit-content;
 }

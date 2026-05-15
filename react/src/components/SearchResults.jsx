@@ -6,38 +6,62 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const q = searchParams.get('q') || '';
   const [results, setResults] = useState([]);
+  // ([]) sier at state starter med en tom array
   const [loading, setLoading] = useState(false);
+  // (false) gjør at loading ikke starter med en gang koden kjøres, men skal kjøres og vises i tiden fra man trykker søk og til resultatet vises på siden
+  const [error, setError] = useState(null); // EKSTRA
 
   useEffect(() => {
     if (!q) {
-      setResults([]);
-      //hvis q ikke finnes, tømmer vi setResults
+      // hvis q ikke finnes/oppfyller kriterier
+      setResults([]); // er det lurt å kalle state i en effect? Vil ikke det skape rendering-trøbbel? hvis de kalles synkront?
+      // så skal setResults tømmes / være tom
       return;
     }
 
     const fetchResults = async () => {
-      //async henter data fra sanity
       setLoading(true);
+      setError(null); // EKSTRA error ved feilet fetch
+      // setter loading til true, siden koden skal kjøre en Groq-spørring for å hente data
+      try {
       const query = `*[_type == "book" && (
         title match $term || author->name match $term
       )]{
         _id, title, "author": author->name, publishedYear
       } | order(title asc)`;
-       //author->name : fordi author i book refererer til dokumentet author og vi henter name derifra
-       //første del av groq-spørringen er et filter, den sorterer
-       //andre del av groq-spørringen henter ut de feltene vi faktisk trenger
-      const data = await client.fetch(query, { term: `*${q}*` });
+       // groq-spørring * søker på alt, og filtrerer treff på
+       // _type - bøker, && title match ($term egendefinert parameter - søkeresultat) matcher tittel mot søkeresultat
+       // || etter - sjekker om det vi søker på matcher navnet på forfatteren
+       // author->name er tilsvarende som en join i SQL
+       // order(title asc)` sorterer resultat ascending
+       const data = await client.fetch(query, { term: `*${q}*` });
+       // data tar imot fra query for å kunne lagre i state setResults(data)
+       // q betyr kjør useEffect på nytt hver gang q endrer seg. (q endrer seg hver gang vi skriver nytt søkeord)
       setResults(data);
-      setLoading(false);
+    } catch (err) { // EKSTRA 
+      setError(err.message); // EKSTRA
+      console.error("search error", err) //EKSTRA
+      setResults([]) // EKSTRA 
+      // søkeresultat oppdateres og lagres i state
+    } finally { // EKSTRA 
+      setLoading(false)
+      // loading "slått av" etter data er hentet
+    }
     };
     fetchResults();
   }, [q]);
+  // q som avhengighetsarray / dependency 
+
 
   return (
-    <div>
+    // <div> Fjernet div. Erstattet med tomme fragments
+    <>
       <h1>Search results for "{q}"</h1>
       {loading ? (
         <p>Searching...</p>
+      ) : error ? (
+        <p>Something went wrong: {error}</p>
+        // EKSTRA 
       ) : results.length === 0 ? (
         <p>No books found.</p>
       ) : (
@@ -51,7 +75,8 @@ const SearchResults = () => {
           ))}
         </ul>
       )}
-    </div>
+      </>
+    // </div>
   );
 };
 

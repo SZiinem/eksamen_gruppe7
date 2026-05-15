@@ -1,39 +1,43 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+  // useNavigate brukes for programmatisk navigasjon - via effekter eller brukerinput. Send brukeren til ny side
+    // ved effekt (f.eks fullført order) - sendes tilbake til forrige side, eller neste side etter order() er ferdig
+  // useSearchParams bruker en funksjon til å lese - og endre - søkeparametre i URL (det som kommer etter / i url-felt)
 
 const Search = () => {
   const navigate = useNavigate();
-  //navigerer deg til en side når noe er fullført uten at du trykker på en lenke
   const [searchParams] = useSearchParams();
-  //leser og endrer søkeparameter i url-en etter ?. ^^^
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  //q = dersom det står noe i url-en etter search så finner den denne og skriver ut på søkefeltet
-  // '' = tom streng, når url-en er tom så er søkefeltet tom
+    // oppretter en state for et søkefelt, og lagrer det du har søkt på selv om man oppdaterer siden. Synkroniserer state med URL.
+    // useState oppretter variabelen query (verdien) og setQuery (funksjonen for å kunne endre på verdien)
+    // useState(searchParams.get('q') leser parameter fra adressefelt i nettleser
+    // || brukes her som en fallback hvis det ikke står noe i adressefelt. Returnerer i dette tilfellet en tom tekststreng ''
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //preventDefault = sørger for at siden ikke refresher når vi sender inn skjema
-    //query.trim() = Fjerner mellomrom før og etter søkeordet
+      // event.preventDefault() hindrer nettleseren i å utføre standard-oppdatering av nettsiden når data oppdateres - oppdaterer kun komponentet
     if (query.trim()) {
-      //Sjekker at søkefeltet ikke er tomt — så du ikke søker på ingenting ^
+        // (query.trim()) sjekker at søkefeltet inneholder tekst. .trim fjerner mellomrom før/etter tekst
       navigate(`/search?q=${encodeURIComponent(query.trim())}`);
-      //encodeURIComponent = bytter spesialtegn med verdi som er url-vennlig
+        // bruker useNavigate for å sende brukeren til en ny side
+        // encodeURIComponent(query.trim())}`) endrer spesialtegn til lesbare verdier for Uniform Resource Identifier
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* onSubmit så man kan trykke enter og klikk på "Search". onClick er kun klikk på knapp */}
+        {/* Kaller funksjonen som stopper siden fra å laste på nytt - preventDefault() */}
       <input
         type="text"
         value={query}
+          // value={query} tvinger feltet til å alltid vise det som ligger i query-state. Hvis state endres, endres teksten
         onChange={(e) => setQuery(e.target.value)}
-        //Hver gang brukeren skriver en bokstav, oppdateres query med det nye innholdet
-        //e — selve hendelsen (event)
-        //e.target — input-feltet
-        //e.target.value — teksten som står i input-feltet
+          // hver gang man trykker en tast fanges det opp og oppdaterer state. Nødvendig for å kunne skrive i søkefelt
         placeholder="Search books..."
       />
       <button type="submit">Search</button>
+        {/* sender skjema */}
     </form>
   );
 };
