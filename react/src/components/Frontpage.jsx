@@ -8,13 +8,19 @@ export default function Frontpage() {
   // Viser vente-tekst i jsx imens data hentes. Starter som true fordi app alltid starter med å hente data
   const [error, setError] = useState(null);
   // viser error hvis orders og loading ikke går som de skal - hindrer krasj fordi kode alltid kan fullføres
+  const [allBooks, setAllBooks] = useState([])
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const query = `*[_type == "order"]{books}`;
+        const query = `{
+        "orders": *[_type == "order"]{books},
+        "allBooks": *[_type == "book"]{title}}`;
+        // EKSTRA - lagt til telling av antall bøker
         const result = await client.fetch(query);
-        setOrders(result);
+        setOrders(result.orders);
+        setAllBooks(result.allBooks)
+        // EKSTRA - telling av bøker
       } catch (err) {
         setError(err.message);
       } finally {
@@ -28,6 +34,8 @@ export default function Frontpage() {
 
   const activeOrders = orders.length;
   // activeOrders går inn i Sanity-database, length teller antall i hver ordre
+  const showAllBooks = allBooks.length
+  // EKSTRA - Lagt til telling av antall bøker totalt
   const booksBorrowed = orders.reduce((count, order) => count + (order.books?.length || 0), 0);
   // orders.reduce(..) beregner hvor mange bøker som er lånt på tvers av alle ordre i listen. 
   // reduce(count, order) starter på 0 og legger til antall bøker til denne summen
@@ -54,6 +62,8 @@ export default function Frontpage() {
           <article>
             <p>Active orders: {activeOrders}</p>
             <p>Books currently borrowed: {booksBorrowed}</p>
+            <p>All books: {showAllBooks}</p>
+            {/* EKSTRA - telling av antall bøker */}
           </article>
           // </div> Fjernet div - erstattet med article
         )}
