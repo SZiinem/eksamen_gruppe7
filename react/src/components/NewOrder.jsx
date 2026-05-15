@@ -48,6 +48,8 @@ const NewOrder = ({ loggedInUser }) => {
     );
   };
 
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // hindrer nettleser fra å laste på nytt (standard HTML skjema-oppførsel)
@@ -64,9 +66,23 @@ const NewOrder = ({ loggedInUser }) => {
       return;
       // stopper funksjonen hvis ingen book er valgt
     }
+    // ENDRING --> ALERT-MELDING FØR REG ORDRE
+    const selectedBooks = books.filter(book => selectedBookIds.includes(book._id))
+    //vi filtrerer og sjekker om bøkene vi har valgt stemmer med Id i arrayen "selectedBooksIds"
+
+    const confirm = window.confirm(`Har du fått med alt du vil låne? \n${selectedBooks.map(book => `${book.title} — ${book.author}`).join('\n')}`)
+    //window.confirm() = INNEBYGD JAVASCRIPT-FUNKSJON
+    //MAPPER UT BØKENE VI HAR VALGT, OG SKRIVER DE UT
+    //.join('\n') = gjør arrayen til streng med linjeskift
+    if (!confirm){
+      return
+    }
+    //IF-TEST for å sjekke om brukeren godkjenner ordren
 
     setSubmitting(true);
     // disabler submit-knapp imens vi venter - forhindre at samme ordre blir registrert flere ganger
+
+
     try {
       const newOrder = await client.create({
         // dette er IKKE en fetch. Dette er "skjema" som sendes til Sanity som JS-kode
