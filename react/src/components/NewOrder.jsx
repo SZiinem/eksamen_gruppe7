@@ -2,29 +2,31 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import client from '../../helpers/sanityClient';
 
-const NewOrder = () => {
+const NewOrder = ({ loggedInUser }) => {
+  //SENDT IN LOGGEDINUSER SOM PROP FOR Å KOBLE MED DROPDOWN MENYEN I LAYOUT
   const navigate = useNavigate();
 
   const [borrowers, setBorrowers] = useState([]);
   const [books, setBooks] = useState([]);
 
-  const [borrowerId, setBorrowerId] = useState('');
+
   // useState('') brukes fordi state er koblet til et input-felt (select i dette tilfellet) for å velge borrower
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  //SLETTET BORROWERID STATEN
 
   useEffect(() => {
     const fetchData = async () => {
       setError(null) // EKSTRA
       try {
-      const query = `{
+        const query = `{
         "borrowers": *[_type == "borrower"] | order(name asc){ _id, name },
         "books": *[_type == "book"] | order(title asc){ _id, title, "author": author->name }
       }`;
-      const result = await client.fetch(query);
-      setBorrowers(result.borrowers);
-      setBooks(result.books);
+        const result = await client.fetch(query);
+        setBorrowers(result.borrowers);
+        setBooks(result.books);
       } catch (err) { //EKSTRA
         setError(err.message) //EKSTRA
       }
@@ -37,11 +39,11 @@ const NewOrder = () => {
     setSelectedBookIds(prev =>
       // oppdaterer state, prev = gjeldende liste
       prev.includes(bookId)
-      // sjekker om boken allerede er i listen
+        // sjekker om boken allerede er i listen
         ? prev.filter(id => id !== bookId)
         // hvis ja - fjern den
         : [...prev, bookId]
-        // hvis nei - legg den til
+      // hvis nei - legg den til
     );
   };
 
@@ -50,8 +52,8 @@ const NewOrder = () => {
     // hindrer nettleser fra å laste på nytt (standard HTML skjema-oppførsel)
     setError(null);
     // nullstiller tidligere feilmeldinger
-
-    if (!borrowerId) {
+    //ENDRET IFTESTEN FRA BORROWERID TIL LOGGEDINUSER
+    if (!loggedInUser) {
       setError('Please choose a borrower.');
       return;
       // stopper funksjonen hvis ingen borrower er valgt
@@ -66,21 +68,21 @@ const NewOrder = () => {
     // disabler submit-knapp imens vi venter - forhindre at samme ordre blir registrert flere ganger
     try {
       const newOrder = await client.create({
-      // dette er IKKE en fetch. Dette er "skjema" som sendes til Sanity som JS-kode
+        // dette er IKKE en fetch. Dette er "skjema" som sendes til Sanity som JS-kode
         _type: 'order',
-      // dokument-type i sanity
-        borrower: { _type: 'reference', _ref: borrowerId },
-      // referanse til låner-dokument
+        // dokument-type i sanity
+        borrower: { _type: 'reference', _ref: loggedInUser._id }, //REFERENSE TIL LOGGEDINID/INNLOGGET PERSON
+        // referanse til låner-dokument
         books: selectedBookIds.map(id => ({
-      // array av bok-referanser
+          // array av bok-referanser
           // gjør om en liste til et format sanity forventer
           _type: 'reference',
           _ref: id,
           _key: crypto.randomUUID()
-      // lager en unik nøkkel (som Sanity krever i arrays)
+          // lager en unik nøkkel (som Sanity krever i arrays)
         })),
         orderDate: new Date().toISOString()
-      // dato opprettet i format som sanity forstår som: 2025-01-14T10:30:00.000Z
+        // dato opprettet i format som sanity forstår som: 2025-01-14T10:30:00.000Z
       });
       navigate(`/orders/${newOrder._id}`);
       // alt gikk bra - går til den nye ordre-siden
@@ -101,26 +103,11 @@ const NewOrder = () => {
         <p>
           <label>
             Borrower:{' '}
-            {/* Tvinger et mellomrom */}
-            <select
-              value={borrowerId}
-              // react kontrollerer hvilken borrower-id som er valgt
-              onChange={(e) => setBorrowerId(e.target.value)}
-              // oppdaterer state (setBorrowerId) når bruker velger borrower-id (e.target.value)
-              disabled={submitting}
-              // ikke mulig å endre verdier imens skjema sendes inn
-            >
-              <option value="">— choose borrower —</option>
-              {/* vises som standard når ingen borrower er valgt */}
-              {borrowers.map(b => (
-                <option key={b._id} value={b._id}>{b.name}</option>
-                // key={b._id} unik nøkkel som react trenger for listeelement
-                // value={b._id} det som lagres i state
-                // {b.name} mellom fragments viser borrower-navnet
-              ))}
-            </select>
+            {loggedInUser ? <span>{loggedInUser.name}</span> : 'No user loaded'}
           </label>
         </p>
+
+        {/* SLETTET FORM/DROPDOWN MENYEN */}
 
         <fieldset disabled={submitting}>
           {/* deaktiverer alle elementer imens skjema sendes */}
@@ -142,7 +129,7 @@ const NewOrder = () => {
                       checked={selectedBookIds.includes(book._id)}
                       // viser om bok eksisterer i liste eller ikke
                       onChange={() => toggleBook(book._id)}
-                      // hvis ja - nei, hvis nei - ja. 
+                    // hvis ja - nei, hvis nei - ja. 
                     />
                     {' '}{book.title}{book.author && ` — ${book.author}`}
                     {/* viser mellomrom, boktittel, sjekker om forfatternavn finnes - `${viser forfatternavn hvis det finnes}` */}
@@ -157,12 +144,12 @@ const NewOrder = () => {
         {error && <p className='error-neworder'></p>}
 
         {/* <p> fjernet unødvendig p-tag rundt button */}
-          <button type="submit" disabled={submitting}>
-            {submitting ? 'Creating…' : 'Create order'}
-          </button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Creating…' : 'Create order'}
+        </button>
         {/* </p> */}
       </form>
-      </>
+    </>
     // </div>
   );
 };
