@@ -17,6 +17,7 @@ import Show404 from './components/show404'
 import BorrowerProfile from './components/BorrowerProfile'
 import NewOrder from './components/NewOrder'
 import SearchResults from './components/SearchResults'
+import Privacy from './components/Privacy'
 
 function App() {
   // definerer/beskriver hva som skal skje i funksjonen App. tom () betyr at den kjøres uten dependencies/avhengigheter
@@ -69,6 +70,8 @@ function App() {
         <Route path="orders/:id" element={<Order />} />
         <Route path="borrower/:id" element={<BorrowerProfile />} />
         <Route path="search" element={<SearchResults />} />
+        <Route path="privacy" element={<Privacy/>} />
+        {/* LAGT TIL NY ROUTE FOR PRIVACY */}
         <Route path="*" element={<Show404 />} />
         {/* "*" Viser show404.jsx på all URL som ikke finnes */}
       </Route>
