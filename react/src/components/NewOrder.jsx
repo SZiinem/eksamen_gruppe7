@@ -65,6 +65,22 @@ const NewOrder = ({ loggedInUser }) => {
       // stopper funksjonen hvis ingen book er valgt
     }
 
+    const selectedBooks = books.filter(book =>
+      selectedBookIds.includes(book._id)
+    );
+
+    const bookList = selectedBooks
+      .map(book => `• ${book.title}`)
+      .join('\n');
+
+    const confirmed = window.confirm(
+      `You are about to order these books:\n\n${bookList}\n\nAre you sure?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     setSubmitting(true);
     // disabler submit-knapp imens vi venter - forhindre at samme ordre blir registrert flere ganger
     try {
@@ -147,7 +163,7 @@ const NewOrder = ({ loggedInUser }) => {
         {/* <p> fjernet unødvendig p-tag rundt button */}
         <button type="submit" disabled={submitting}>
           {submitting ? 'Creating…' : 'Create order'}
-        </button>
+        </button>x
         {/* </p> */}
       </form>
     </>
