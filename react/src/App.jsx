@@ -65,7 +65,7 @@ function App() {
         <Route path="books" element={<Books />} />
         <Route path="books/:id" element={<Book />} />
         <Route path="orders" element={<Orders loggedInUser={loggedInUser} />} />
-        <Route path="orders/new" element={<NewOrder loggedInUser={loggedInUser} />} /> {/* SENDT LOGGEDINUSER SOM PROP */}
+        <Route path="orders/new" element={<NewOrder />} /> {/* SENDT LOGGEDINUSER SOM PROP */}
         <Route path="orders/:id" element={<Order />} />
         <Route path="borrower/:id" element={<BorrowerProfile />} />
         <Route path="search" element={<SearchResults />} />

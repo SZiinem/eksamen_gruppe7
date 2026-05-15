@@ -2,19 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import client from '../../helpers/sanityClient';
 
-const NewOrder = ({ loggedInUser }) => {
-  //SENDT IN LOGGEDINUSER SOM PROP FOR Å KOBLE MED DROPDOWN MENYEN I LAYOUT
+const NewOrder = () => {
   const navigate = useNavigate();
 
   const [borrowers, setBorrowers] = useState([]);
   const [books, setBooks] = useState([]);
 
-
+  const [borrowerId, setBorrowerId] = useState('');
   // useState('') brukes fordi state er koblet til et input-felt (select i dette tilfellet) for å velge borrower
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-  //SLETTET BORROWERID STATEN
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,8 +50,8 @@ const NewOrder = ({ loggedInUser }) => {
     // hindrer nettleser fra å laste på nytt (standard HTML skjema-oppførsel)
     setError(null);
     // nullstiller tidligere feilmeldinger
-    //ENDRET IFTESTEN FRA BORROWERID TIL LOGGEDINUSER
-    if (!loggedInUser) {
+
+    if (!borrowerId) {
       setError('Please choose a borrower.');
       return;
       // stopper funksjonen hvis ingen borrower er valgt
@@ -71,7 +69,7 @@ const NewOrder = ({ loggedInUser }) => {
         // dette er IKKE en fetch. Dette er "skjema" som sendes til Sanity som JS-kode
         _type: 'order',
         // dokument-type i sanity
-        borrower: { _type: 'reference', _ref: loggedInUser._id }, //REFERENSE TIL LOGGEDINID/INNLOGGET PERSON
+        borrower: { _type: 'reference', _ref: borrowerId },
         // referanse til låner-dokument
         books: selectedBookIds.map(id => ({
           // array av bok-referanser
@@ -103,11 +101,26 @@ const NewOrder = ({ loggedInUser }) => {
         <p>
           <label>
             Borrower:{' '}
-            {loggedInUser ? <span>{loggedInUser.name}</span> : 'No user loaded'}
+            {/* Tvinger et mellomrom */}
+            <select
+              value={borrowerId}
+              // react kontrollerer hvilken borrower-id som er valgt
+              onChange={(e) => setBorrowerId(e.target.value)}
+              // oppdaterer state (setBorrowerId) når bruker velger borrower-id (e.target.value)
+              disabled={submitting}
+            // ikke mulig å endre verdier imens skjema sendes inn
+            >
+              <option value="">— choose borrower —</option>
+              {/* vises som standard når ingen borrower er valgt */}
+              {borrowers.map(b => (
+                <option key={b._id} value={b._id}>{b.name}</option>
+                // key={b._id} unik nøkkel som react trenger for listeelement
+                // value={b._id} det som lagres i state
+                // {b.name} mellom fragments viser borrower-navnet
+              ))}
+            </select>
           </label>
         </p>
-
-        {/* SLETTET FORM/DROPDOWN MENYEN */}
 
         <fieldset disabled={submitting}>
           {/* deaktiverer alle elementer imens skjema sendes */}
