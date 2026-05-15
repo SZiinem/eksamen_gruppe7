@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 // useState lagrer lokale endringer i verdier på siden. Hver gang man refresher siden vil de lagrede verdiene glemmes
 // useEffect kjører en spesiell funksjon ved gitte anledninger. Enten når komponenten først åpnes, oppdateres eller brukes
-  // kode som skjer -utenom- rendering, som å hente data, 
+// kode som skjer -utenom- rendering, som å hente data, 
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import client from '../helpers/sanityClient'
@@ -33,7 +33,7 @@ function App() {
       try {
         // try er sikkerhetsmekanisme - prøver å kjøre kode
         const query = `*[_type == "borrower"][0]{ _id, name, email }`
-                          // Kan bytte index for å bytte bruker. Skal vi lage en bedre løsning?
+        // Kan bytte index for å bytte bruker. Skal vi lage en bedre løsning?
         // Groq-spørring
         // *[_type == "borrower"] - finner alle dokumenter av typen "borrower"
         // [0] - tar bare det første treffet
@@ -52,20 +52,20 @@ function App() {
     }
     fetchUser()
     // kjører funksjonen fetchUser
-  }, []) 
+  }, [])
   // [] betyr at den kun kjøres én gang - i dette tilfellet ved start. [] med innhold betyr at funksjonen skal kjøres avhengig av noe annet - depdendencies
 
   return (
     <Routes>
       {/* Routes er en regel som bestemmer hva som skal vises basert på URL i nettleser */}
       <Route path="/" element={<Layout loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />}>
-      {/* LEGGER TIL setLoggedInUser SOM PROPP  ^ */}
-      {/* Alle route innenfor path="/" er barne-element av Layout.jsx */}
+        {/* LEGGER TIL setLoggedInUser SOM PROPP  ^ */}
+        {/* Alle route innenfor path="/" er barne-element av Layout.jsx */}
         <Route index element={<Frontpage />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:id" element={<Book />} />
         <Route path="orders" element={<Orders loggedInUser={loggedInUser} />} />
-        <Route path="orders/new" element={<NewOrder />} />
+        <Route path="orders/new" element={<NewOrder loggedInUser={loggedInUser} />} /> {/* SENDT LOGGEDINUSER SOM PROP */}
         <Route path="orders/:id" element={<Order />} />
         <Route path="borrower/:id" element={<BorrowerProfile />} />
         <Route path="search" element={<SearchResults />} />
