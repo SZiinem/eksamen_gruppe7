@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import client from '../../helpers/sanityClient';
 
-const NewOrder = () => {
+const NewOrder = ({loggedInUser}) => {
   const navigate = useNavigate();
 
   const [borrowers, setBorrowers] = useState([]);
   const [books, setBooks] = useState([]);
 
-  const [borrowerId, setBorrowerId] = useState('');
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -37,11 +36,11 @@ const NewOrder = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
+     console.log('loggedInUser:', loggedInUser);
 
-    if (!borrowerId) {
-      setError('Please choose a borrower.');
-      return;
-    }
+    // if (!borrowerId) {
+    //   setError('Please choose a borrower.');
+    //   return;
     if (selectedBookIds.length === 0) {
       setError('Please select at least one book.');
       return;
@@ -52,7 +51,7 @@ const NewOrder = () => {
       //her bruker vi client.create fordi vi henter ikke data men lager ny data og sender til sanity, da bruker vi ikke ternary operators
       const newOrder = await client.create({
         _type: 'order',
-        borrower: { _type: 'reference', _ref: borrowerId },
+        borrower: { _type: 'reference', _ref: loggedInUser._id },
         books: selectedBookIds.map(id => ({
           _type: 'reference',
           _ref: id,
@@ -74,16 +73,21 @@ const NewOrder = () => {
         <p>
           <label>
             Borrower:{' '}
-            <select
+            {/* <select
               value={borrowerId}
               onChange={(e) => setBorrowerId(e.target.value)}
               disabled={submitting}
             >
-              <option value="">— choose borrower —</option>
+              {/* <option value="">— choose borrower —</option>
               {borrowers.map(b => (
                 <option key={b._id} value={b._id}>{b.name}</option>
-              ))}
-            </select>
+              ))} 
+            </select> */}
+            
+              {loggedInUser
+            ? <span>{loggedInUser.name}</span>
+            : 'No user loaded'}
+            
           </label>
         </p>
 
