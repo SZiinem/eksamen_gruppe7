@@ -26,6 +26,8 @@ const NewOrder = ({ loggedInUser }) => {
       //   "books": *[_type == "book"] | order(title asc){ _id, title, "author": author->name }
       //   "borrowed": count(*[_type == "order" && references(^._id)]) > 0
       // }`;
+      // OPPRINNELIG KODE
+
       const query = `{
         "borrowers": *[_type == "borrower"] | order(name asc){ _id, name },
         "books": *[_type == "book"] | order(title asc){ 
@@ -38,8 +40,9 @@ const NewOrder = ({ loggedInUser }) => {
       //EKSTRA FOR Å VISE KUN TILGJENGELIGE BØKER
         const result = await client.fetch(query);
         setBorrowers(result.borrowers);
-        // setBooks(result.books); EKSTRA FOR Å VISE TILGJENGELIGE BØKER
-        setBooks(result.books.filter(book => !book.borrowed));
+        // setBooks(result.books); 
+        setBooks(result.books.filter(book => !book.borrowed)); // EKSTRA FOR Å VISE TILGJENGELIGE BØKER
+        // bruker filter slik at book returnerer books som ikke ! er borrowed i stede for å vise alle books
       } catch (err) { //EKSTRA
         setError(err.message) //EKSTRA
       }
