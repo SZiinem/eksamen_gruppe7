@@ -8,6 +8,8 @@ const Books = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  //EKSTRA: false er best for boolean-data (on/off), mens null er best for ukjent data
+  const [showAvailableBooks, setShowAvailableBooks] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,15 +63,19 @@ const Books = () => {
   // if (error) return <div>Error: {error}</div>; erstattet div med p
   if (error) return <p>Error: {error}</p>;
 
-  const filteredBooks = selectedGenre
-  // filteredBooks lager en liste filtrert på sjanger
-    ? books.filter(book =>
-      // hvis selectedGenre finnes (en sjanger er valgt), books.filter(...) tar bare med de bøkene der book.genres inneholder en sjanger med _id lik selectedGenre
-        book.genres?.some(genre => genre._id === selectedGenre)
-        // some sjekker om minst én sjanger i bokas liste matcher den sjangeren vi har valgt. Bøker kan ha 1 og flere sjangre
-      )
-    : books;
+  // const filteredBooks = selectedGenre
+  // // filteredBooks lager en liste filtrert på sjanger
+  //   ? books.filter(book =>
+  //     // hvis selectedGenre finnes (en sjanger er valgt), books.filter(...) tar bare med de bøkene der book.genres inneholder en sjanger med _id lik selectedGenre
+  //       book.genres?.some(genre => genre._id === selectedGenre)
+  //       // some sjekker om minst én sjanger i bokas liste matcher den sjangeren vi har valgt. Bøker kan ha 1 og flere sjangre
+  //     )
+  //   : books;
     // hvis selectedGenre ikke er satt, filteredBooks blir bare alle books (ingen filtrering)
+
+  const filteredBooks = books
+    .filter(book => selectedGenre ? book.genres?.some(genre => genre._id === selectedGenre) : true)
+    .filter(book => showAvailableBooks ? !book.borrowed : true)
 
   return (
     // <div> fjernet div. erstattet med fragments
@@ -79,7 +85,7 @@ const Books = () => {
       <nav className="book-filters">
         <p>Filter:</p>
         <button
-          onClick={() => setSelectedGenre(null)}
+          onClick={() => {setSelectedGenre(null); setShowAvailableBooks(false);}}
           // setter selectedGenre til null - ingen sjanger valgt = vis alle
           // style={{ fontWeight: selectedGenre === null ? 'bold' : 'normal' }}
           className={selectedGenre === null ? 'active' : ''} // endret til
@@ -92,7 +98,7 @@ const Books = () => {
           <button
             key={genre._id}
             // kobler på en unik nøkkel for react
-            onClick={() => setSelectedGenre(genre._id)}
+            onClick={() => { setSelectedGenre(genre._id); setShowAvailableBooks(false);}}
             // klikk på knappen setter selectedGenre til sjangerens id
             // style={{ fontWeight: selectedGenre === genre._id ? 'bold' : 'normal' }}
             className={selectedGenre === genre._id ? 'active' : ''} // endret til
@@ -102,6 +108,17 @@ const Books = () => {
           </button>
         ))}
       </nav>
+      {/* EKSTRA: lagt til ny knapp som KUN viser de tilgjenlige bøkene! */}
+        <p>
+          Show only available books {' '}
+          <button
+          //EKSTRA: setShowAvailableBooks starter som false, prev=>!prev snur tilstand til den motsatte altså til true, (hvis true - til false)
+            onClick={() => setShowAvailableBooks(prev => !prev)}
+            className={showAvailableBooks ? 'active' : ''}
+            >
+            Available only
+          </button>
+        </p>
 
       <ul>
         {filteredBooks.map((book) => (
@@ -142,6 +159,8 @@ const Books = () => {
           </li>
         ))}
       </ul>
+      {/* EKSTRA: tekst dukker opp dersom det ikke er noen tilgjenlige bøker etter filtrering */}
+      {filteredBooks.length === 0 ? <p>Ingen bøker tilgjengelig</p> : null}
       </>
     // </div>
   );
