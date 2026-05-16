@@ -74,14 +74,13 @@ const NewOrder = ({ loggedInUser }) => {
     //window.confirm() = INNEBYGD JAVASCRIPT-FUNKSJON
     //MAPPER UT BØKENE VI HAR VALGT, OG SKRIVER DE UT
     //.join('\n') = gjør arrayen til streng med linjeskift
-    if (!confirm){
+    if (!confirm) {
       return
     }
     //IF-TEST for å sjekke om brukeren godkjenner ordren
 
-    const selectedBooks = books.filter(book =>
-      selectedBookIds.includes(book._id)
-    );
+
+    ;
 
     const bookList = selectedBooks
       .map(book => `• ${book.title}`)
