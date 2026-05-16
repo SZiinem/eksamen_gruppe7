@@ -71,7 +71,7 @@ const Search = () => {
           <ul>
             {searchHistory.map((q, index) => (
               <li key={index}>
-                <button type="button" onClick={() => setQuery(q)}>{q}</button>
+                <button type="button" onMouseDown={() => setQuery(q)}>{q}</button>
               </li>
             ))}
           </ul>
