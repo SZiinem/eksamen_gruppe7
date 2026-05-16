@@ -9,6 +9,7 @@ export default function Frontpage() {
   const [error, setError] = useState(null);
   // viser error hvis orders og loading ikke går som de skal - hindrer krasj fordi kode alltid kan fullføres
   const [allBooks, setAllBooks] = useState([])
+  // EKSTRA - lagt til telling av antall bøker
 
   useEffect(() => {
     const fetchSummary = async () => {

@@ -21,13 +21,25 @@ const NewOrder = ({ loggedInUser }) => {
     const fetchData = async () => {
       setError(null) // EKSTRA
       try {
-        const query = `{
+      //   const query = `{
+      //   "borrowers": *[_type == "borrower"] | order(name asc){ _id, name },
+      //   "books": *[_type == "book"] | order(title asc){ _id, title, "author": author->name }
+      //   "borrowed": count(*[_type == "order" && references(^._id)]) > 0
+      // }`;
+      const query = `{
         "borrowers": *[_type == "borrower"] | order(name asc){ _id, name },
-        "books": *[_type == "book"] | order(title asc){ _id, title, "author": author->name }
+        "books": *[_type == "book"] | order(title asc){ 
+          _id, 
+          title, 
+          "author": author->name,
+          "borrowed": count(*[_type == "order" && references(^._id)]) > 0
+        }
       }`;
+      //EKSTRA FOR Å VISE KUN TILGJENGELIGE BØKER
         const result = await client.fetch(query);
         setBorrowers(result.borrowers);
-        setBooks(result.books);
+        // setBooks(result.books); EKSTRA FOR Å VISE TILGJENGELIGE BØKER
+        setBooks(result.books.filter(book => !book.borrowed));
       } catch (err) { //EKSTRA
         setError(err.message) //EKSTRA
       }
