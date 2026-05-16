@@ -7,20 +7,43 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 const Search = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  
+  const savedHistory = () => {
+  const stored = localStorage.getItem('searchHistory');
+  return stored !== null ? JSON.parse(stored) : [];
+};
+
   const [query, setQuery] = useState(searchParams.get('q') || '');
     // oppretter en state for et søkefelt, og lagrer det du har søkt på selv om man oppdaterer siden. Synkroniserer state med URL.
     // useState oppretter variabelen query (verdien) og setQuery (funksjonen for å kunne endre på verdien)
     // useState(searchParams.get('q') leser parameter fra adressefelt i nettleser
     // || brukes her som en fallback hvis det ikke står noe i adressefelt. Returnerer i dette tilfellet en tom tekststreng ''
 
+  const [searchHistory, setSearchHistory] = useState(savedHistory);
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //     // event.preventDefault() hindrer nettleseren i å utføre standard-oppdatering av nettsiden når data oppdateres - oppdaterer kun komponentet
+  //   if (query.trim()) {
+  //       // (query.trim()) sjekker at søkefeltet inneholder tekst. .trim fjerner mellomrom før/etter tekst
+  //     navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+  //       // bruker useNavigate for å sende brukeren til en ny side
+  //       // encodeURIComponent(query.trim())}`) endrer spesialtegn til lesbare verdier for Uniform Resource Identifier
+  //   }
+  // };
+  //GAMMEL KODE UTEN LOCALSTORAGE
+
+    // EKSTRA MED LOCALSTORAGE PÅ SØK - oppdaterer både state og localStorage når søk utføres
   const handleSubmit = (event) => {
     event.preventDefault();
-      // event.preventDefault() hindrer nettleseren i å utføre standard-oppdatering av nettsiden når data oppdateres - oppdaterer kun komponentet
     if (query.trim()) {
-        // (query.trim()) sjekker at søkefeltet inneholder tekst. .trim fjerner mellomrom før/etter tekst
-      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
-        // bruker useNavigate for å sende brukeren til en ny side
-        // encodeURIComponent(query.trim())}`) endrer spesialtegn til lesbare verdier for Uniform Resource Identifier
+      const trimmed = query.trim();
+
+      const updated = [trimmed, ...searchHistory.filter(q => q !== trimmed)].slice(0, 5);
+      localStorage.setItem('searchHistory', JSON.stringify(updated));
+      setSearchHistory(updated);
+
+      navigate(`/search?q=${encodeURIComponent(trimmed)}`);
     }
   };
 
@@ -38,6 +61,18 @@ const Search = () => {
       />
       <button type="submit">Search</button>
         {/* sender skjema */}
+
+        {/* EKSTRA */}
+        {searchHistory.length > 0 && (
+        <ul>
+          <p>Tidligere søk:</p>
+          {searchHistory.map((q, index) => (
+            <li key={index}>
+              <button type="button" onClick={() => setQuery(q)}>{q}</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 };
