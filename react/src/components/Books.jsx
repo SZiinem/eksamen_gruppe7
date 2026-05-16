@@ -33,8 +33,10 @@ const Books = () => {
           // references foran ^._id peker til boka med eksakt id
           // count(*[..] teller alle ordre mot en bok med en eksakt id
 
-          } | order(title asc),
-          "genres": *[_type == "genre"] | order(title asc){ _id, title }
+          //EKSTRA: | = pipe-operator, tar resultatet fra venstre side og sender det inn i en funksjon som data på høyre side
+          } | order(author asc), //EKSTRA - order er for å sortere, som på SQL
+          //  } | order(title asc), //gammel kode
+          "genres": *[_type == "genre"] | order(title asc){ _id, title}
       // sorterer etter ordre og tittel, eldst - nyest
         }`;
         const result = await client.fetch(query);
