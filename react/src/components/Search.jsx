@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 const Search = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [focused, setFocused] = useState(false)
   
   const savedHistory = () => {
   const stored = localStorage.getItem('searchHistory');
@@ -48,7 +49,7 @@ const Search = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='searchform'>
       {/* onSubmit så man kan trykke enter og klikk på "Search". onClick er kun klikk på knapp */}
         {/* Kaller funksjonen som stopper siden fra å laste på nytt - preventDefault() */}
       <input
@@ -56,6 +57,8 @@ const Search = () => {
         value={query}
           // value={query} tvinger feltet til å alltid vise det som ligger i query-state. Hvis state endres, endres teksten
         onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
           // hver gang man trykker en tast fanges det opp og oppdaterer state. Nødvendig for å kunne skrive i søkefelt
         placeholder="Search books..."
       />
@@ -63,16 +66,16 @@ const Search = () => {
         {/* sender skjema */}
 
         {/* EKSTRA */}
-        {searchHistory.length > 0 && (
-        <ul>
-          <p>Tidligere søk:</p>
-          {searchHistory.map((q, index) => (
-            <li key={index}>
-              <button type="button" onClick={() => setQuery(q)}>{q}</button>
-            </li>
-          ))}
-        </ul>
-      )}
+        {/* {focused && searchHistory.length > 0} */}
+        {focused && searchHistory.length > 0 && (
+          <ul>
+            {searchHistory.map((q, index) => (
+              <li key={index}>
+                <button type="button" onClick={() => setQuery(q)}>{q}</button>
+              </li>
+            ))}
+          </ul>
+        )}
     </form>
   );
 };
