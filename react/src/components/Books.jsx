@@ -109,7 +109,7 @@ const Books = () => {
         ))}
       </nav>
       {/* EKSTRA: lagt til ny knapp som KUN viser de tilgjenlige bøkene! */}
-        <p>
+        <p className="onlyAvailable">
           Show only available books {' '}
           <button
           //EKSTRA: setShowAvailableBooks starter som false, prev=>!prev snur tilstand til den motsatte altså til true, (hvis true - til false)

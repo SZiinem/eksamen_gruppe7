@@ -70,6 +70,14 @@ main {
   }
 }
 
+.onlyAvailable{
+  button{
+    &.active{
+      font-weight: bold;
+    }
+  }
+}
+
 /* Erstatter inline css i Books.jsx */
 .book-info {
   img{
