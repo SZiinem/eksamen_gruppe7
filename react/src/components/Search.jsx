@@ -34,7 +34,7 @@ const Search = () => {
   // };
   //GAMMEL KODE UTEN LOCALSTORAGE
 
-    // EKSTRA MED LOCALSTORAGE PÅ SØK - oppdaterer både state og localStorage når søk utføres
+  // EKSTRA MED LOCALSTORAGE PÅ SØK - oppdaterer både state og localStorage når søk utføres
   const handleSubmit = (event) => {
     event.preventDefault();
     if (query.trim()) {
@@ -58,8 +58,9 @@ const Search = () => {
           // value={query} tvinger feltet til å alltid vise det som ligger i query-state. Hvis state endres, endres teksten
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setFocused(true)}
+        // hver gang man trykker en tast fanges det opp og oppdaterer state. Nødvendig for å kunne skrive i søkefelt
         onBlur={() => setFocused(false)}
-          // hver gang man trykker en tast fanges det opp og oppdaterer state. Nødvendig for å kunne skrive i søkefelt
+        // EKSTRA - for å toggle input-felt av/på når man trykker på det
         placeholder="Search books..."
       />
       <button type="submit">Search</button>
@@ -72,6 +73,8 @@ const Search = () => {
             {searchHistory.map((q, index) => (
               <li key={index}>
                 <button type="button" onMouseDown={() => setQuery(q)}>{q}</button>
+                {/* EKSTRA onMouseDown kjører FØR onBlur - gjør at vi kan velge fra tidligere søk i input-felt */}
+                {/* EKSTRA onClick kjører ETTER onBlur - gjør at feltet lukkes før vi kan velge tidligere søk i input-felt */}
               </li>
             ))}
           </ul>
