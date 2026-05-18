@@ -30,13 +30,8 @@ const NewOrder = ({ loggedInUser }) => {
 
       const query = `{
         "borrowers": *[_type == "borrower"] | order(name asc){ _id, name },
-        "books": *[_type == "book"] | order(title asc){ 
-          _id, 
-          title, 
-          "author": author->name,
-          "borrowed": count(*[_type == "order" && references(^._id)]) > 0
-        }
-      }`;
+        "books": *[_type == "book"] | order(title asc){_id, title, "author": author->name,
+          "borrowed": count(*[_type == "order" && references(^._id)]) > 0 } }`;
       //EKSTRA FOR Å VISE KUN TILGJENGELIGE BØKER
         const result = await client.fetch(query);
         setBorrowers(result.borrowers);
