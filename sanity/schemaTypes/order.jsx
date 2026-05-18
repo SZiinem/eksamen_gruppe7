@@ -20,7 +20,7 @@ export default {
           to: [{ type: 'book' }]
         }
       ],
-      validation: Rule => Rule.min(1)
+      validation: Rule => Rule.min(1) //må inneholde minst 1 element
     },
     {
       name: 'orderDate',
@@ -29,12 +29,12 @@ export default {
       validation: Rule => Rule.required()
     }
   ],
-  preview: {
-  select: {
+  preview: { //preview bestemmer hvordan et dokument vises i sanity
+  select: { //henter ut data fra dokumentet og gir dem navn
     borrower: "borrower.name",
     books: "books"
   },
-  prepare({ borrower, books }) {
+  prepare({ borrower, books }) { //tar data fra select og bestemmer hva som skal vises
     return {
       title: `Order by ${borrower ?? "Unknown"}`,
       subtitle: `${books?.length || 0} books`
