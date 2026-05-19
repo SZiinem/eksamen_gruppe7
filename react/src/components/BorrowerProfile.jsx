@@ -77,11 +77,11 @@ const BorrowerProfile = () => {
       ) : (
         <ul>
           {orders.map(order => (
-              // går gjennom alle ordre og lager ett <li> per ordre
+            // går gjennom alle ordre og lager ett <li> per ordre
             <li key={order._id}>
               {/* gir hvert listeelement en unik id til react */}
               <Link to={`/orders/${order._id}`}>
-              {/* lager lenke til detaljsiden for den ordren */}
+                {/* lager lenke til detaljsiden for den ordren */}
                 Order on {new Date(order.orderDate).toLocaleDateString()}
                 {/* toLocaleDateString() viser datoen i lesbart lokalt format - avgjøres av nettleser og lokale innstillinger */}
               </Link>
@@ -105,11 +105,12 @@ const BorrowerProfile = () => {
             <li key={book._id}>
               <Link to={`/books/${book._id}`}>{book.title}</Link>
               {book.author && ` — ${book.author}`}
+              {/*Hvis book.author finnes, så skrives ut book.author */}
             </li>
           ))}
         </ul>
       )}
-      </>
+    </>
     // </div>
   );
 };
